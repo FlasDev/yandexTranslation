@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.yandextranslator.net.YandexApiClient
 import com.example.yandextranslator.net.YandexApiService
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
@@ -15,7 +16,7 @@ class YandexTranslationRepository @Inject constructor(private val yandexApiServi
     override fun getTranslate(apiKey: String, text: String, language: String): Observable<String> {
         return yandexApiService.getTranslate(apiKey, text, language)
                 .subscribeOn(Schedulers.io())
-                .doOnNext {Log.d("myLogs", "${it.code}")}
+                .observeOn(AndroidSchedulers.mainThread())
                 .map {it.text[0]}
     }
 
@@ -59,7 +60,4 @@ class YandexTranslationRepository @Inject constructor(private val yandexApiServi
                  }
     }
 
-    private fun getCurrentLanguage(): String{
-        return "en-ru"
-    }
 }
