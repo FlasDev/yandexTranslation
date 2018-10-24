@@ -2,17 +2,24 @@ package com.example.yandextranslator.ui
 
 
 import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.databinding.adapters.TextViewBindingAdapter
 import androidx.lifecycle.ViewModelProviders
 import com.example.yandextranslator.BR
 import com.example.yandextranslator.R
 import com.example.yandextranslator.databinding.FragmentAddTranslationBinding
 import com.example.yandextranslator.di.ViewModelFactory
 import com.example.yandextranslator.ui.base.BaseFragment
+import com.example.yandextranslator.util.RxEditTextObservable
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxAdapterView
+import com.jakewharton.rxbinding2.widget.RxTextView
+import kotlinx.android.synthetic.main.fragment_add_translation.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -41,11 +48,17 @@ class AddTranslationFragment : BaseFragment<FragmentAddTranslationBinding, AddTr
         RxView.clicks(viewDataBinding.btnTranslate)
                 .map {viewDataBinding.textToTranslateField.text.toString()}
                 .filter{it.isNotEmpty()}
+
+
+        RxEditTextObservable.fromView(viewDataBinding.textToTranslateField)
+                .skip(1)
+                .debounce(1000, TimeUnit.MILLISECONDS)
+                .filter {it.isNotEmpty()}
                 .subscribe {getViewModel().getTranslate(
                         it,
                         viewDataBinding.spinnerCurrentLanguages.selectedItemPosition,
                         viewDataBinding.spinnerTranslationLanguages.selectedItemPosition
-                        )}
+                )}
     }
 
 }

@@ -19,14 +19,13 @@ class YandexTranslationModule {
 
 
     @Provides
-    @Singleton
     fun provideRealmDatabase(context: Application): Realm{
         Realm.init(context)
         val configuration = RealmConfiguration
                 .Builder()
                 .name("translation.realm")
                 .build()
-        Realm.deleteRealm(configuration)
+        //Realm.deleteRealm(configuration)
         Realm.setDefaultConfiguration(configuration)
 
         return Realm.getDefaultInstance()

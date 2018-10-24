@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.yandextranslator.ui.AddTranslationViewModel
+import com.example.yandextranslator.ui.ListTranslationViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -30,4 +31,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AddTranslationViewModel::class)
     abstract fun bindAddTranslationViewModel(viewModel: AddTranslationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListTranslationViewModel::class)
+    abstract fun bindListTranslationViewModel(viewModel: ListTranslationViewModel): ViewModel
 }

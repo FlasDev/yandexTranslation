@@ -3,35 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/addTranslationFragment">
+    app:startDestination="@id/ListTranslationFragment">
 
     <fragment
         android:id="@+id/ListTranslationFragment"
         android:name="com.example.yandextranslator.ui.ListTranslationFragment"
         android:label="fragment_list_translation"
-        tools:layout="@layout/fragment_list_translation" />
-
+        tools:layout="@layout/fragment_list_translation" >
+        <action
+            android:id="@+id/action_ListTranslationFragment_to_addTranslationFragment"
+            app:destination="@id/addTranslationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addTranslationFragment"
         android:name="com.example.yandextranslator.ui.AddTranslationFragment"
-        android:label="fragment_add_translation"
-        tools:layout="@layout/fragment_add_translation" />
+        android:label="AddTranslationFragment"
+        tools:layout="@layout/fragment_add_translation"/>
 
-    <activity
-        android:id="@+id/settingActivity"
-        android:name="com.example.yandextranslator.ui.SettingActivity"
-        android:label="activity_setting"
-        tools:layout="@layout/activity_setting" />
 
     <action
         android:id="@+id/ListTranslation"
         app:destination="@id/ListTranslationFragment"/>
 
     <action
-        android:id="@+id/addTranslation"
-        app:destination="@id/addTranslationFragment"/>
-
-    <action
         android:id="@+id/setting"
         app:destination="@id/settingActivity"/>
+
+
 </navigation>

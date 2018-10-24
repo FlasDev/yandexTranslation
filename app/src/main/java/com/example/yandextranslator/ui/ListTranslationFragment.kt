@@ -1,22 +1,32 @@
 package com.example.yandextranslator.ui
 
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
+import com.example.yandextranslator.BR
 import com.example.yandextranslator.R
+import com.example.yandextranslator.databinding.FragmentListTranslationBinding
+import com.example.yandextranslator.di.ViewModelFactory
+import com.example.yandextranslator.ui.base.BaseFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import javax.inject.Inject
 
 
-class ListTranslationFragment : Fragment() {
+class ListTranslationFragment : BaseFragment<FragmentListTranslationBinding, ListTranslationViewModel>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_translation, container, false)
+    @Inject lateinit var viewModelFactory: ViewModelFactory
+
+    override fun getLayout(): Int = R.layout.fragment_list_translation
+
+    override fun getViewModel(): ListTranslationViewModel =
+            ViewModelProviders.of(this, viewModelFactory)[ListTranslationViewModel::class.java]
+
+    override fun getVariable(): Int = BR.viewmodel
+
+    override fun initUI() {
+        val fab = viewDataBinding.addTranslationFab
+        fab.setOnClickListener {
+            navController.navigate(R.id.action_ListTranslationFragment_to_addTranslationFragment)
+        }
     }
-
-
 }

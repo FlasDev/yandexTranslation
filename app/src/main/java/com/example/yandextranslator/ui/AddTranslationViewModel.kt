@@ -79,4 +79,8 @@ class AddTranslationViewModel @Inject constructor(private val yandexTranslationR
         return lang
     }
 
+    override fun onCleared() {
+        realmTranslationRepository.closeRealm()
+        super.onCleared()
+    }
 }

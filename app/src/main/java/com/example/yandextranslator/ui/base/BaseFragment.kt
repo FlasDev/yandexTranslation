@@ -11,6 +11,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -23,6 +25,7 @@ abstract class BaseFragment<T: ViewDataBinding, V: BaseViewModel>: Fragment(), H
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     lateinit var viewDataBinding: T
+    lateinit var navController: NavController
 
     private lateinit var viewModel: V
     private lateinit var rootView: View
@@ -42,10 +45,10 @@ abstract class BaseFragment<T: ViewDataBinding, V: BaseViewModel>: Fragment(), H
         viewModel = getViewModel()
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayout(), container, false)
         rootView = viewDataBinding.root
+        navController = findNavController()
         initUI()
         return rootView
     }
