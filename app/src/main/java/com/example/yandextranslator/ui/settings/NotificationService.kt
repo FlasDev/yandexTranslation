@@ -1,61 +1,58 @@
-package com.example.yandextranslator.ui
+package com.example.yandextranslator.ui.settings
 
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.example.yandextranslator.R
 import com.example.yandextranslator.model.RealmTranslationRepository
-import com.example.yandextranslator.model.TranslationRealmModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.toObservable
-import io.reactivex.schedulers.Schedulers
+import dagger.android.AndroidInjection
 import io.realm.Realm
-import java.util.*
 import javax.inject.Inject
 
 class NotificationService: Service() {
 
     private lateinit var nm: NotificationManager
     private lateinit var realm: Realm
+
+    @Inject
+    lateinit var realmTranslationRepository: RealmTranslationRepository
     override fun onCreate() {
+        AndroidInjection.inject(this)
         super.onCreate()
         nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         realm = Realm.getDefaultInstance()
-        Log.d("myLogs", "$realm")
+        Log.d("myLogs", "$realmTranslationRepository")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //Log.d("myLogs", "$realmTranslationRepository")
-        createNotification()
+        createNotification(intent!!)
         return super.onStartCommand(intent, flags, startId)
     }
 
     @SuppressLint("CheckResult")
-    private fun createNotification(){
-        realm.where(TranslationRealmModel::class.java)
-                .findAllAsync()
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .take(1)
-                .subscribe {
-                    val notificationBuilder =
-                            Notification.Builder(baseContext)
-                                    .setSmallIcon(R.drawable.ic_g_translate)
-                                    .setContentTitle(it.inputText)
-                                    .setContentText(it.translationText)
-                                    .setAutoCancel(false)
+    private fun createNotification(intent: Intent){
+        val pI = PendingIntent.getActivity(baseContext, 0, intent, 0)
+        val randomWord = realmTranslationRepository.loadRandomWord()
 
-                    val notification = notificationBuilder.build()
+        val notificationBuilder =
+                Notification.Builder(baseContext)
+                        .setSmallIcon(R.drawable.ic_g_translate)
+                        .setContentTitle(randomWord!!.inputText)
+                        .setContentText(randomWord.translationText)
+                        .setOngoing(true)
+                        .addAction(R.drawable.ic_navigate_next, "Next word", pI)
 
-                    nm.notify(1, notification)
-                }
+        val notification = notificationBuilder.build()
+
+        nm.notify(1, notification)
+
     }
 
     override fun onDestroy() {
