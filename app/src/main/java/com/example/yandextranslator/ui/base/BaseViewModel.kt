@@ -8,13 +8,11 @@ import javax.inject.Inject
 
 abstract class BaseViewModel(application: Application): AndroidViewModel(application) {
 
-    @Inject lateinit var realm: Realm
 
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         compositeDisposable.dispose()
-        realm.close()
         super.onCleared()
     }
 }

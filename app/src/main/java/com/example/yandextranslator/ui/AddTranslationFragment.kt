@@ -15,6 +15,8 @@ import com.example.yandextranslator.databinding.FragmentAddTranslationBinding
 import com.example.yandextranslator.di.ViewModelFactory
 import com.example.yandextranslator.ui.base.BaseFragment
 import com.example.yandextranslator.util.RxEditTextObservable
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -41,6 +43,7 @@ class AddTranslationFragment : BaseFragment<FragmentAddTranslationBinding, AddTr
 
     @SuppressLint("CheckResult")
     override fun initUI() {
+
         RxAdapterView.itemSelections(viewDataBinding.spinnerCurrentLanguages)
                 .skip(1)
                 .subscribe(getViewModel()::getTranslateLanguages)
@@ -48,9 +51,13 @@ class AddTranslationFragment : BaseFragment<FragmentAddTranslationBinding, AddTr
         RxView.clicks(viewDataBinding.btnTranslate)
                 .map {viewDataBinding.textToTranslateField.text.toString()}
                 .filter{it.isNotEmpty()}
+                .subscribe {getViewModel().getTranslate(
+                        it,
+                        viewDataBinding.spinnerCurrentLanguages.selectedItemPosition,
+                        viewDataBinding.spinnerTranslationLanguages.selectedItemPosition
+                )}
 
-
-        RxEditTextObservable.fromView(viewDataBinding.textToTranslateField)
+        /*RxEditTextObservable.fromView(viewDataBinding.textToTranslateField)
                 .skip(1)
                 .debounce(1000, TimeUnit.MILLISECONDS)
                 .filter {it.isNotEmpty()}
@@ -58,7 +65,7 @@ class AddTranslationFragment : BaseFragment<FragmentAddTranslationBinding, AddTr
                         it,
                         viewDataBinding.spinnerCurrentLanguages.selectedItemPosition,
                         viewDataBinding.spinnerTranslationLanguages.selectedItemPosition
-                )}
-    }
+                )}*/
 
+    }
 }

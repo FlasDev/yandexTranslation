@@ -8,27 +8,12 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/main_appbar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:elevation="4dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                tools:ignore="UnusedAttribute" />
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <fragment
             android:id="@+id/main_nav_controller"
@@ -37,9 +22,27 @@
             android:layout_height="match_parent"
             app:defaultNavHost="true"
             app:navGraph="@navigation/translation_navigation"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"/>
 
-    </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/main_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_g_translate"
+            app:fabAlignmentMode="end"
+            app:fabSize="normal"
+            app:layout_anchor="@id/main_bottom_app_bar"/>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/main_bottom_app_bar"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hideOnScroll="true"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_gravity="bottom"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/main_nav_view"
@@ -50,8 +53,6 @@
         app:itemIconTint="@color/colorPrimary"
         android:fitsSystemWindows="true"
         app:menu="@menu/main_nav_menu"
-        app:headerLayout="@layout/nav_header">
-
-    </com.google.android.material.navigation.NavigationView>
+        app:headerLayout="@layout/nav_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

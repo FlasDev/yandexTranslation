@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:key="notification_screen"
+        android:title="Уведомления">
+        <CheckBoxPreference
+            android:key="cb_notification"
+            android:summary="@string/settings_notification_summary"
+            android:title="@string/settings_notification_title"/>
+
+        <ListPreference
+            android:defaultValue="2"
+            android:dependency="cb_notification"
+            android:entries="@array/notification_periodicity"
+            android:entryValues="@array/notification_periodicity"
+            android:key="list_notification_periodicity"
+            android:title="Переодичность уведомлений" />
+
+    </PreferenceScreen>
+
+</PreferenceScreen>

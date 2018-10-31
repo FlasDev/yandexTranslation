@@ -14,20 +14,21 @@
             android:id="@+id/action_ListTranslationFragment_to_addTranslationFragment"
             app:destination="@id/addTranslationFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/addTranslationFragment"
         android:name="com.example.yandextranslator.ui.AddTranslationFragment"
         android:label="AddTranslationFragment"
         tools:layout="@layout/fragment_add_translation"/>
 
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.example.yandextranslator.ui.settings.SettingsActivity"
+        android:label="SettingsActivity" />
 
     <action
         android:id="@+id/ListTranslation"
         app:destination="@id/ListTranslationFragment"/>
-
-    <action
-        android:id="@+id/setting"
-        app:destination="@id/settingActivity"/>
 
 
 </navigation>

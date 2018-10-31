@@ -21,15 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_translation_fab"
-            android:src="@drawable/ic_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:fabSize="normal"
-            app:layout_anchor="@id/list_translate_recycler_view"
-            app:layout_anchorGravity="bottom|right|end"/>
+        <ViewStub
+            android:id="@+id/empty_translation_list_viewstub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/empty_translation_list"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

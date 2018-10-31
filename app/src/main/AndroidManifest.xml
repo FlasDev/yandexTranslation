@@ -15,8 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.AddTranslationActivity"></activity>
-        <activity android:name=".ui.SettingActivity" />
+        <service android:name=".ui.NotificationService"
+            android:exported="true"
+            android:enabled="true"/>
+        <activity android:name=".ui.settings.SettingsActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
