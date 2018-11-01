@@ -29,6 +29,20 @@ class ListTranslationFragment : BaseFragment<FragmentListTranslationBinding, Lis
 
     override fun getVariable(): Int = BR.viewmodel
 
+    override fun onResume() {
+        super.onResume()
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.main_fab)
+        val bottomAppBar = activity?.findViewById<BottomAppBar>(R.id.main_bottom_app_bar)
+        fab?.hide(object: FloatingActionButton.OnVisibilityChangedListener(){
+            override fun onHidden(fab: FloatingActionButton?) {
+                super.onHidden(fab)
+                bottomAppBar!!.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                fab?.setImageDrawable(resources.getDrawable(R.drawable.ic_g_translate, null))
+                fab?.show()
+            }
+        })
+    }
+
     @SuppressLint("CheckResult")
     override fun initUI() {
 

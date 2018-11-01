@@ -6,6 +6,7 @@ import android.util.AndroidException
 import android.util.Log
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
+import com.example.yandextranslator.YandexTranslationApplication
 import com.example.yandextranslator.model.RealmTranslationRepository
 import com.example.yandextranslator.model.TranslationRealmModel
 import com.example.yandextranslator.model.YandexTranslationRepository
@@ -31,7 +32,11 @@ class AddTranslationViewModel @Inject constructor(private val yandexTranslationR
     fun getLanguages(){
         val disposable = yandexTranslationRepository.getLanguages(apiKey = KEY, ui = "ru")
                 .doOnNext{if (mapOfLanguages == null) mapOfLanguages = it}
-                .map {it.values.toList().sorted()}
+                .map {hashmap->
+                    val list = hashmap.values.toList().sorted().toMutableList()
+                   // list.add(0, "Английский")
+                    list
+                }
                 .subscribe(currentLanguages::set)
 
         compositeDisposable.add(disposable)
@@ -58,6 +63,15 @@ class AddTranslationViewModel @Inject constructor(private val yandexTranslationR
                 .subscribe(realmTranslationRepository::saveTranslation)
 
         compositeDisposable.add(disposable)
+    }
+
+    fun saveToDatabase(inputText: String, translationText: String, currentLanguageId: Int, translationLanguage: Int){
+        realmTranslationRepository.saveTranslation(TranslationRealmModel(
+                id = UUID.randomUUID().toString(),
+                inputText = inputText,
+                translationText = translationText,
+                languages = getLanguageToTransalteById(currentLanguageId, translationLanguage)
+        ))
     }
 
     private fun getLanguageToTransalteById(currentLanguageId: Int, translationLanguage: Int): String{
